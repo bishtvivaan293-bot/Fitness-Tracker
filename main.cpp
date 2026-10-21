@@ -5,7 +5,6 @@
 #include <stack>
 #include <queue>
 using namespace std;
-
 class User {
     string username, password;
 public:
