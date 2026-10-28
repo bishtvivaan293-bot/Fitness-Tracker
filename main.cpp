@@ -4,6 +4,8 @@
 #include <limits>
 #include <stack>
 #include <queue>
+void recommendWorkout();
+void runWeeklySchedule();
 using namespace std;
 class User {
     string username, password;
@@ -243,7 +245,10 @@ public:
                  << "4. View Workout History\n5. Search Workout by ID\n"
                  << "6. Delete Workout by ID\n7. Save Workout Records\n"
                  << "8. Sort Workouts by Duration\n9. Undo Last Workout (Stack)\n"
-                 << "10. Process Next Workout (Queue)\n11. Exit\nEnter Choice: ";
+                 << "10. Process Next Workout (Queue)\n"
+<< "11. Workout Recommendation\n"
+<< "12. Weekly Workout Schedule\n"
+<< "13. Exit\nEnter Choice: ";
             if (!(cin >> choice)) { cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n'); cout << "Invalid input.\n"; continue; }
             switch (choice) {
                 case 1: calculateBMI(); break;
@@ -256,10 +261,12 @@ public:
                 case 8: sortWorkoutsByDuration(); break;
                 case 9: undoLastWorkout(); break;
                 case 10: processNextWorkout(); break;
-                case 11: saveWorkouts(); cout << "Exiting dashboard...\n"; break;
+                case 11: recommendWorkout(); break;
+case 12: runWeeklySchedule(); break;
+case 13: saveWorkouts(); cout << "Exiting dashboard...\n"; break;
                 default: cout << "Invalid choice.\n";
             }
-        } while (choice != 11);
+        } while (choice != 13);
     }
 };
 
