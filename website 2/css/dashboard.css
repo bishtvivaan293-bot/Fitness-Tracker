@@ -1,0 +1,50 @@
+/* FitTrack dashboard styles. Uses the colour variables from style.css. */
+[hidden]{display:none!important}
+
+.welcome{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px 34px}
+.welcome h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin-bottom:8px}
+.welcome-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.95rem}
+.welcome-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.profile-form{margin-top:16px;padding:20px;border:1px solid var(--line);border-radius:var(--r);background:var(--l50)}
+.profile-form .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.profile-form .field{margin-bottom:0}
+
+.stats{margin-top:18px}
+.stat-card{display:flex;flex-direction:column;gap:4px;border-left:4px solid var(--l400)}
+.stat-card .label{font-size:.85rem;color:var(--muted);font-weight:600}
+.stat-card b{font:700 2rem var(--display);line-height:1.15}
+.stat-card .hint{font-size:.82rem;color:var(--muted)}
+.stat-card .hint a{font-weight:600}
+
+.chart-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:36px 0 14px}
+.chart-head h2{font-size:1.5rem}
+.week-nav{display:flex;align-items:center;gap:8px}
+.week-nav .range{min-width:150px;text-align:center;font-weight:600;font-size:.92rem}
+.week-nav .btn{padding:8px 12px}
+.week-nav .btn[disabled]{opacity:.45;cursor:not-allowed}
+.chart-card h3{font-size:1.08rem;margin-bottom:2px}
+.chart-card .sub{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+.chart-box{position:relative;height:270px}
+.chart-fallback{padding:40px 10px;text-align:center;color:var(--muted)}
+
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.quick a{display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--surface);color:var(--ink);text-decoration:none;transition:border-color .15s,background .15s}
+.quick a:hover{border-color:var(--l400);background:var(--l50)}
+.quick .ico{flex:none}
+.quick b{display:block;font-family:var(--display)}
+.quick span{font-size:.85rem;color:var(--muted)}
+
+.recent-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.recent-head h2{font-size:1.5rem}
+.empty-box{padding:28px;border:1px dashed var(--l300);border-radius:var(--r);background:var(--l50);text-align:center}
+.empty-box p{color:var(--muted);margin:6px auto 16px;max-width:52ch}
+.dev-tools{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--muted)}
+.btn-sm{padding:7px 14px;font-size:.85rem}
+
+@media (max-width:900px){
+  .welcome{padding:22px}
+  .chart-box{height:240px}
+}

@@ -1,0 +1,35 @@
+/* FitTrack workout management styles. Uses the colour variables from style.css. */
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn-sm{padding:7px 14px;font-size:.85rem}
+
+/* Form */
+.form-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.form-head h2{font-size:1.3rem}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:4px 16px}
+.field small{color:var(--muted);font-size:.78rem;line-height:1.4}
+.form-error{color:var(--bad);min-height:1.4em;margin:2px 0 10px;font-size:.92rem}
+#formCard.editing{border-color:var(--l400);background:var(--l50)}
+.link-btn{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--l600);cursor:pointer;text-decoration:underline}
+
+/* Search and sort */
+.toolbar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.toolbar .field{margin-bottom:0}
+.toolbar .grow{flex:1 1 240px}
+.toolbar select{min-width:210px}
+
+/* Table. position:relative keeps the hidden .sr-only label inside the scrolling box. */
+.table-wrap{position:relative}
+.workout-table{min-width:640px}
+.workout-table td:first-child{color:var(--muted);font-weight:600}
+.workout-table .num{white-space:nowrap}
+.workout-table tr.editing td{background:var(--l50)}
+.row-actions{display:flex;gap:8px;justify-content:flex-end}
+.empty-box{padding:28px;border:1px dashed var(--l300);border-radius:var(--r);background:var(--l50);text-align:center}
+.empty-box p{color:var(--muted);margin:6px auto 16px;max-width:52ch}
+.empty-box p:last-child{margin-bottom:0}
+
+@media (max-width:600px){
+  .toolbar select{min-width:0;width:100%}
+  .toolbar .field{width:100%}
+}

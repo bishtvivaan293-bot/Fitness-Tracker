@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workouts – FitTrack</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/workouts.css">
+</head>
+<body data-page="workouts" data-title="Workouts" data-sub="Add, update, search and sort your workouts">
+<main>
+
+  <!-- 1. Add / update form (one form, two modes) -->
+  <section class="card" id="formCard" aria-labelledby="formTitle">
+    <div class="form-head">
+      <h2 id="formTitle">Add a workout</h2>
+      <span class="badge" id="editBadge" hidden>Editing</span>
+    </div>
+    <form id="workoutForm" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="exercise">Exercise</label>
+          <select id="exercise"></select><!-- filled by js/workouts.js from core.js -->
+        </div>
+        <div class="field" id="customField" hidden>
+          <label for="customName">Exercise name</label>
+          <input id="customName" type="text" maxlength="40" placeholder="e.g. Yoga">
+        </div>
+        <div class="field">
+          <label for="duration">Duration (minutes)</label>
+          <input id="duration" type="number" min="1" max="600" step="1" inputmode="numeric" placeholder="e.g. 30" required>
+        </div>
+        <div class="field">
+          <label for="reps">Repetitions</label>
+          <input id="reps" type="number" min="0" max="10000" step="1" inputmode="numeric" placeholder="0">
+          <small>Optional. Leave empty for running, cycling or walking.</small>
+        </div>
+        <div class="field">
+          <label for="calories">Calories burned (kcal)</label>
+          <input id="calories" type="number" min="0" max="10000" step="1" inputmode="numeric" placeholder="Estimated for you">
+          <small id="calHint"></small>
+        </div>
+        <div class="field">
+          <label for="date">Date</label>
+          <input id="date" type="date" required>
+        </div>
+      </div>
+      <p id="formError" class="form-error" role="alert"></p>
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" id="submitBtn">Add workout</button>
+        <button class="btn btn-ghost" type="button" id="cancelEditBtn" hidden>Cancel edit</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- 2. History with search and sort -->
+  <div class="section-head">
+    <h2>Workout history</h2>
+    <p id="summary" aria-live="polite">Loading your workouts…</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="field grow">
+      <label for="search">Search</label>
+      <input id="search" type="search" placeholder="Exercise, date (2026-11) or #ID" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="sort">Sort by</label>
+      <select id="sort">
+        <option value="id-asc">Order added</option>
+        <option value="duration-asc">Duration: shortest first</option>
+        <option value="duration-desc">Duration: longest first</option>
+        <option value="calories-asc">Calories: lowest first</option>
+        <option value="calories-desc">Calories: highest first</option>
+      </select>
+    </div>
+    <div class="field">
+      <button class="btn btn-ghost" type="button" id="undoBtn" title="Removes the workout you added most recently (this visit only)">Undo last added</button>
+    </div>
+  </div>
+
+  <div class="table-wrap" id="tableWrap" hidden>
+    <table class="workout-table">
+      <thead>
+        <tr><th>ID</th><th>Date</th><th>Exercise</th><th>Duration</th><th>Reps</th><th>Calories</th><th><span class="sr-only">Actions</span></th></tr>
+      </thead>
+      <tbody id="workoutBody"></tbody>
+    </table>
+  </div>
+
+  <div class="empty-box" id="emptyAll" hidden>
+    <b>No workouts yet</b>
+    <p>Use the form above to log your first workout. It appears on your dashboard charts straight away.</p>
+  </div>
+  <div class="empty-box" id="emptySearch" hidden>
+    <b>No matching workouts</b>
+    <p>Try a different exercise name, a date like 2026-11, or an ID like #3.</p>
+    <button class="btn btn-ghost" type="button" id="clearSearch">Clear search</button>
+  </div>
+
+</main>
+<footer>FitTrack – Fitness Tracker. A college PBL project based on the C++ Fitness Tracker.</footer>
+
+<script src="js/layout.js"></script>
+<script src="js/core.js"></script>
+<script src="js/workouts.js"></script>
+</body>
+</html>
