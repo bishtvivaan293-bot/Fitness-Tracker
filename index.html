@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitTrack – Fitness Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home" data-title="Home" data-sub="Your fitness tracker at a glance">
+<main>
+  <section class="hero">
+    <div>
+      <h2>Your fitness plan, tracked in one calm place.</h2>
+      <p>FitTrack turns the C++ Fitness Tracker project into a web app. Log workouts, check your BMI, get a plan that fits your time and see your whole week.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="dashboard.html">Open dashboard</a>
+        <a class="btn btn-ghost" href="calculator.html">Try the calculator</a>
+      </div>
+    </div>
+    <div class="week" aria-label="Sample week of workouts">
+      <div class="week-bars">
+        <div class="day"><span>30</span><i class="bar" style="--h:87px"></i><em>Mon</em></div>
+        <div class="day"><span>Rest</span><i class="bar rest" style="--h:14px"></i><em>Tue</em></div>
+        <div class="day"><span>45</span><i class="bar" style="--h:130px"></i><em>Wed</em></div>
+        <div class="day"><span>20</span><i class="bar" style="--h:58px"></i><em>Thu</em></div>
+        <div class="day"><span>30</span><i class="bar" style="--h:87px"></i><em>Fri</em></div>
+        <div class="day"><span>45</span><i class="bar" style="--h:130px"></i><em>Sat</em></div>
+        <div class="day"><span>Rest</span><i class="bar rest" style="--h:14px"></i><em>Sun</em></div>
+      </div>
+      <p class="week-cap">Sample week. This is the web version of the # graph in your C++ weekly schedule.</p>
+    </div>
+  </section>
+
+  <div class="section-head">
+    <h2>What you can do</h2>
+    <p>Every feature below comes from your C++ project.</p>
+  </div>
+  <div class="grid g3">
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg></div>
+      <h3>Dashboard</h3><p>See your profile, totals and recent workouts at a glance.</p>
+      <div class="origin">From C++: ProgressAnalysis report</div></article>
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg></div>
+      <h3>BMI and calories</h3><p>Check your BMI category and a daily calorie target for Bulk, Cut or Maintain.</p>
+      <div class="origin">From C++: calculateBMI() and dailyCalories()</div></article>
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <h3>Workout management</h3><p>Add, search, update, delete, sort and undo your workouts.</p>
+      <div class="origin">From C++: FitnessTracker class with a linked list</div></article>
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7 7 .8-5.3 4.7 1.6 7.5L12 18l-6.3 4 1.6-7.5L2 9.8 9 9z"/></svg></div>
+      <h3>Smart recommendations</h3><p>Choose a goal, level and time to get a warm-up, main workout and cool-down.</p>
+      <div class="origin">From C++: recommendation_module.cpp</div></article>
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v16H4zM4 10h16M9 3v4M15 3v4"/></svg></div>
+      <h3>Weekly schedule</h3><p>Pick 3 to 6 workout days and get a plan with rest days built in.</p>
+      <div class="origin">From C++: weekly_schedule_module.cpp</div></article>
+    <article class="card feature"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+      <h3>Analytics</h3><p>Weekly graphs of minutes and calories across your workouts.</p>
+      <div class="origin">New on the web: each workout now gets a date</div></article>
+  </div>
+
+  <div class="section-head">
+    <h2>Built on real C++ ideas</h2>
+    <p>The website uses the same data structures as your C++ code, rewritten in JavaScript.</p>
+  </div>
+  <div class="grid g4">
+    <div class="concept"><b>Linked list</b><span>Your workout history is a chain of nodes.</span></div>
+    <div class="concept"><b>Stack</b><span>Undo removes the workout you added last.</span></div>
+    <div class="concept"><b>Queue</b><span>Process the oldest queued workout first.</span></div>
+    <div class="concept"><b>File handling</b><span>Records are saved like workouts.txt, using browser storage.</span></div>
+  </div>
+</main>
+<footer>FitTrack – Fitness Tracker. A college PBL project based on the C++ Fitness Tracker.</footer>
+<script src="js/layout.js"></script>
+</body>
+</html>

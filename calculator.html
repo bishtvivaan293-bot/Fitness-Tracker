@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BMI and calories – FitTrack</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page-only styles for the calculator. Uses the colours from style.css. */
+    [hidden]{display:none!important}
+    .result-big{font-size:clamp(2rem,8vw,3rem)}
+    .result-big{font:700 3rem var(--display);line-height:1.1;margin:6px 0 10px}
+    .scale{position:relative;height:12px;border-radius:99px;margin:22px 0 8px;
+      background:linear-gradient(90deg,var(--l300) 0 14%,var(--ok) 14% 40%,var(--warn) 40% 60%,var(--bad) 60% 100%)}
+    .marker{position:absolute;top:-5px;width:4px;height:22px;border-radius:3px;background:var(--ink);
+      left:0;transform:translateX(-50%);transition:left .5s cubic-bezier(.2,.8,.2,1)}
+    .scale-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+    .formula{margin-top:16px;padding-left:10px;border-left:3px solid var(--l300);font-size:.82rem;color:var(--muted)}
+    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+    .tile{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--l50)}
+    .tile.on{background:var(--l100);border-color:var(--l400)}
+    .tile b{display:block;font:700 1.5rem var(--display)}
+    .tile span{font-size:.82rem;color:var(--muted)}
+    .empty{color:var(--muted);padding:18px 0}
+    .field small{color:var(--muted)}
+    .form-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .head-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+<body data-page="calculator" data-title="BMI and calories" data-sub="Check your BMI and a daily calorie target">
+<main>
+  <div class="grid g2">
+    <section class="card" aria-labelledby="formTitle">
+      <h2 id="formTitle" style="font-size:1.2rem;margin-bottom:4px">Your details</h2>
+      <p class="muted" style="margin-bottom:18px;font-size:.92rem">Saved in this browser, so they are filled in next time.</p>
+      <form id="calcForm" novalidate>
+        <div class="field">
+          <label for="goal">Goal</label>
+          <select id="goal">
+            <option value="Bulk">Bulk (gain weight)</option>
+            <option value="Cut">Cut (lose weight)</option>
+            <option value="Maintain" selected>Maintain</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="height">Height (metres)</label>
+          <input id="height" type="number" step="0.01" min="0.5" max="3" inputmode="decimal" placeholder="e.g. 1.75" required>
+          <small>Use metres, like the C++ program. 175 cm is 1.75.</small>
+        </div>
+        <div class="field">
+          <label for="weight">Weight (kg)</label>
+          <input id="weight" type="number" step="0.1" min="1" inputmode="decimal" placeholder="e.g. 70" required>
+        </div>
+        <p id="formError" class="muted" role="alert" style="color:var(--bad);min-height:1.4em;margin-bottom:8px"></p>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Calculate</button>
+          <button class="btn btn-ghost" type="button" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="bmiTitle" aria-live="polite">
+      <div class="head-row"><h2 id="bmiTitle" style="font-size:1.2rem">Your BMI</h2><span id="bmiBadge" class="badge" hidden></span></div>
+      <div id="bmiEmpty" class="empty">Enter your height and weight, then press Calculate.</div>
+      <div id="bmiOut" hidden>
+        <div class="result-big" id="bmiValue">0</div>
+        <div class="scale" aria-hidden="true"><i class="marker" id="marker"></i></div>
+        <div class="scale-labels" aria-hidden="true"><span>15</span><span>18.5</span><span>25</span><span>30</span><span>40</span></div>
+        <p id="bmiText" class="muted" style="margin-top:14px"></p>
+      </div>
+      <div class="formula"><b>From C++ calculateBMI():</b> BMI = weight ÷ (height × height). Under 18.5 is Underweight, under 25 Normal, under 30 Overweight, otherwise Obese.</div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:18px" aria-labelledby="calTitle" aria-live="polite">
+    <h2 id="calTitle" style="font-size:1.2rem">Daily calories (estimate)</h2>
+    <div id="calEmpty" class="empty">Your calorie target will show here after you calculate.</div>
+    <div id="calOut" hidden>
+      <div class="result-big" id="calValue">0</div>
+      <p class="muted" id="calText"></p>
+      <div class="tiles" id="tiles"></div>
+    </div>
+    <div class="formula"><b>From C++ dailyCalories():</b> maintenance = weight × 33. Bulk adds 300, Cut subtracts 300, Maintain stays the same. This is a rough estimate, not medical advice.</div>
+  </section>
+</main>
+<footer>FitTrack – Fitness Tracker. A college PBL project based on the C++ Fitness Tracker.</footer>
+<script src="js/layout.js"></script>
+<script src="js/core.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return Math.round(n).toLocaleString('en-IN'); };
+  var tint = { Underweight: 'var(--l700)', Normal: 'var(--ok)', Overweight: 'var(--warn)', Obese: 'var(--bad)' };
+  var advice = {
+    Underweight: 'Below the healthy range. A Bulk goal with strength workouts can help.',
+    Normal: 'You are in the healthy range. Maintain is a good goal.',
+    Overweight: 'Slightly above the healthy range. A Cut goal with regular cardio can help.',
+    Obese: 'Well above the healthy range. Start gently and consider talking to a doctor.'
+  };
+
+  // Fill the form from the saved profile
+  var profile = FT.getProfile() || {};
+  if (profile.goal) $('goal').value = profile.goal;
+  if (profile.height) $('height').value = profile.height;
+  if (profile.weight) $('weight').value = profile.weight;
+
+  function showError(msg) { $('formError').textContent = msg; }
+
+  function calculate() {
+    var h = parseFloat($('height').value), w = parseFloat($('weight').value), goal = $('goal').value;
+    if (isNaN(h) || isNaN(w)) { showError('Enter both height and weight.'); return false; }
+    if (h > 3) { showError('Height looks too large. Enter it in metres, for example 1.75.'); return false; }
+    var bmi = FT.calculateBMI(h, w), cal = FT.dailyCalories(w, goal);
+    if (!bmi.ok) { showError(bmi.error); return false; }
+    if (!cal.ok) { showError(cal.error); return false; }
+    showError('');
+
+    $('bmiEmpty').hidden = true; $('bmiOut').hidden = false;
+    $('bmiValue').textContent = bmi.bmi.toFixed(1);
+    $('bmiValue').style.color = tint[bmi.category];
+    $('bmiBadge').hidden = false; $('bmiBadge').textContent = bmi.category;
+    $('bmiText').textContent = advice[bmi.category];
+    var pos = Math.min(1, Math.max(0, (bmi.bmi - 15) / 25)) * 100;
+    $('marker').style.left = pos + '%';
+
+    $('calEmpty').hidden = true; $('calOut').hidden = false;
+    $('calValue').textContent = fmt(cal.target) + ' kcal/day';
+    $('calText').textContent = 'Target for ' + goal + '. Maintenance for ' + w + ' kg is ' + fmt(cal.maintain) + ' kcal.';
+    $('tiles').innerHTML = ['Bulk', 'Cut', 'Maintain'].map(function (g) {
+      var r = FT.dailyCalories(w, g);
+      return '<div class="tile' + (g === goal ? ' on' : '') + '"><span>' + g + '</span><b>' + fmt(r.target) + '</b><span>kcal/day</span></div>';
+    }).join('');
+    return true;
+  }
+
+  $('calcForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!calculate()) return;
+    var p = FT.getProfile() || {};
+    p.goal = $('goal').value; p.height = parseFloat($('height').value); p.weight = parseFloat($('weight').value);
+    FT.saveProfile(p);
+    FitTrack.toast('Calculated and saved to your profile.', 'ok');
+  });
+
+  $('resetBtn').addEventListener('click', function () {
+    $('calcForm').reset(); $('goal').value = 'Maintain';
+    var p = FT.getProfile() || {}; delete p.height; delete p.weight; delete p.goal; FT.saveProfile(p);
+    $('bmiOut').hidden = true; $('bmiEmpty').hidden = false; $('bmiBadge').hidden = true;
+    $('calOut').hidden = true; $('calEmpty').hidden = false; showError('');
+    FitTrack.toast('Details cleared.');
+  });
+
+  if (profile.height && profile.weight) calculate(); // show results straight away for returning users
+})();
+</script>
+</body>
+</html>

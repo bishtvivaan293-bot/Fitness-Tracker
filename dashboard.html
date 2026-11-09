@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard – FitTrack</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body data-page="dashboard" data-title="Dashboard" data-sub="Your fitness at a glance">
+<main>
+
+  <!-- 1. Welcome -->
+  <section class="welcome" aria-labelledby="welcomeTitle">
+    <div>
+      <h2 id="welcomeTitle">Welcome to FitTrack</h2>
+      <div class="welcome-meta">
+        <span>Your goal:</span><span class="badge" id="goalBadge">Not set</span>
+        <span id="todayText"></span>
+      </div>
+    </div>
+    <div class="welcome-actions">
+      <button class="btn btn-ghost" type="button" id="editProfileBtn" aria-expanded="false" aria-controls="profileForm">Edit profile</button>
+      <a class="btn btn-primary" href="calculator.html">Open calculator</a>
+    </div>
+  </section>
+
+  <form class="profile-form" id="profileForm" hidden novalidate>
+    <div class="row">
+      <div class="field">
+        <label for="pName">Your name</label>
+        <input id="pName" type="text" maxlength="40" autocomplete="given-name" placeholder="e.g. Aarav">
+      </div>
+      <div class="field">
+        <label for="pGoal">Fitness goal</label>
+        <select id="pGoal">
+          <option value="Bulk">Bulk (gain weight)</option>
+          <option value="Cut">Cut (lose weight)</option>
+          <option value="Maintain">Maintain</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions" style="margin-top:14px">
+      <button class="btn btn-primary" type="submit">Save profile</button>
+      <button class="btn btn-ghost" type="button" id="cancelProfileBtn">Cancel</button>
+    </div>
+  </form>
+
+  <!-- 2. Summary cards -->
+  <section class="grid g4 stats" aria-label="Summary">
+    <article class="card stat-card">
+      <span class="label">BMI</span>
+      <b id="bmiVal">–</b>
+      <span class="hint" id="bmiHint"><a href="calculator.html">Enter height and weight</a></span>
+    </article>
+    <article class="card stat-card">
+      <span class="label">Daily calorie target</span>
+      <b id="calVal">–</b>
+      <span class="hint" id="calHint"><a href="calculator.html">Set up in the calculator</a></span>
+    </article>
+    <article class="card stat-card">
+      <span class="label">Total workouts</span>
+      <b id="totalWorkouts">0</b>
+      <span class="hint" id="workoutsHint">All time</span>
+    </article>
+    <article class="card stat-card">
+      <span class="label">Total duration</span>
+      <b id="totalDuration">0 min</b>
+      <span class="hint" id="durationHint">All time</span>
+    </article>
+  </section>
+
+  <!-- 3 and 4. Charts -->
+  <div class="chart-head">
+    <h2>Weekly activity</h2>
+    <div class="week-nav">
+      <button class="btn btn-ghost" type="button" id="prevWeek" aria-label="Previous week">&lsaquo;</button>
+      <span class="range" id="weekRange" aria-live="polite"></span>
+      <button class="btn btn-ghost" type="button" id="nextWeek" aria-label="Next week">&rsaquo;</button>
+    </div>
+  </div>
+  <div class="grid g2">
+    <section class="card chart-card" aria-labelledby="minTitle">
+      <h3 id="minTitle">Workout minutes</h3>
+      <p class="sub" id="minSub">Monday to Sunday</p>
+      <div class="chart-box"><canvas id="minutesChart" role="img" aria-label="Bar chart of workout minutes for each day of the week"></canvas></div>
+    </section>
+    <section class="card chart-card" aria-labelledby="calChartTitle">
+      <h3 id="calChartTitle">Calories burned</h3>
+      <p class="sub" id="calSub">Estimated, Monday to Sunday</p>
+      <div class="chart-box"><canvas id="caloriesChart" role="img" aria-label="Line chart of estimated calories burned for each day of the week"></canvas></div>
+    </section>
+  </div>
+
+  <!-- 5. Quick actions -->
+  <div class="section-head">
+    <h2>Quick actions</h2>
+    <p>Jump to the part of FitTrack you need.</p>
+  </div>
+  <nav class="quick" aria-label="Quick actions">
+    <a href="calculator.html"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg></span><div><b>BMI and calories</b><span>Update your BMI and calorie target</span></div></a>
+    <a href="workouts.html"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><div><b>Workout management</b><span>Add, edit and delete workouts</span></div></a>
+    <a href="recommend.html"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3 7 7 .8-5.3 4.7 1.6 7.5L12 18l-6.3 4 1.6-7.5L2 9.8 9 9z"/></svg></span><div><b>Smart recommendations</b><span>Get a plan for your time and level</span></div></a>
+    <a href="schedule.html"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v16H4zM4 10h16M9 3v4M15 3v4"/></svg></span><div><b>Weekly schedule</b><span>Plan your workout and rest days</span></div></a>
+  </nav>
+
+  <!-- Recent workouts -->
+  <div class="section-head" style="margin-bottom:12px">
+    <h2>Recent workouts</h2>
+  </div>
+  <div id="recentWrap">
+    <div class="table-wrap" id="recentTable" hidden>
+      <table>
+        <thead><tr><th>Date</th><th>Workout</th><th>Duration</th><th>Calories</th></tr></thead>
+        <tbody id="recentBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-box" id="recentEmpty">
+      <b>No workouts yet</b>
+      <p>Your charts and totals fill in as you log workouts. Workout Management is coming in the next stage. Until then, load sample workouts to see the dashboard in action.</p>
+      <button class="btn btn-primary" type="button" id="loadSample">Load sample workouts</button>
+    </div>
+    <div class="dev-tools" id="devTools" hidden>
+      <span>Testing tools:</span>
+      <button class="btn btn-ghost btn-sm" type="button" id="loadSample2">Add sample workouts</button>
+      <button class="btn btn-danger btn-sm" type="button" id="clearWorkouts">Clear all workouts</button>
+    </div>
+  </div>
+</main>
+<footer>FitTrack – Fitness Tracker. A college PBL project based on the C++ Fitness Tracker.</footer>
+
+<script src="js/layout.js"></script>
+<script src="js/core.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
